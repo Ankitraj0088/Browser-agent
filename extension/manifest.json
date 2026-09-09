@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Privacy-Preserving Browser Vision Agent",
+  "version": "1.0.0",
+  "description": "SIH 26171 (ISRO) - On-device visual perception with local PII redaction for lightweight browser agents",
+  "permissions": ["activeTab", "scripting", "storage"],
+  "host_permissions": ["http://localhost:5050/*"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Privacy Vision Agent"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}

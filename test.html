@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Demo test page — fake data only</title>
+  <style>
+    body { font-family: sans-serif; max-width: 640px; margin: 40px auto; line-height: 1.6; }
+    label { display: block; margin-top: 14px; font-weight: 600; }
+    input { width: 100%; padding: 8px; box-sizing: border-box; margin-top: 4px; }
+    button { margin-top: 20px; padding: 10px 18px; }
+    .note { color: #666; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <h1>Contact / signup form (test page)</h1>
+  <p class="note">All values below are fake, for demoing the redaction pipeline only.</p>
+
+  <p>Contact us at demo.user@example.com or call +91 98765 43210.</p>
+  <p>Test card number for the redaction demo: 4111 1111 1111 1111</p>
+
+  <label>Full name</label>
+  <input type="text" placeholder="Jane Doe" />
+
+  <label>Email</label>
+  <input type="email" placeholder="jane@example.com" />
+
+  <label>Phone</label>
+  <input type="tel" placeholder="+91 90000 00000" />
+
+  <label>Password</label>
+  <input type="password" placeholder="********" />
+
+  <button id="search-btn">Search</button>
+  <button id="submit-btn">Submit</button>
+</body>
+</html>

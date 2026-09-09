@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Privacy Vision Agent</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <h1>Privacy-Preserving Vision Agent</h1>
+    <p class="sub">On-device redaction &middot; SIH 26171</p>
+
+    <label class="lbl">Task for the agent</label>
+    <input id="task" type="text" placeholder="e.g. click the search button" value="click the search button" />
+
+    <button id="run">Scan &amp; Assist</button>
+
+    <div id="status" class="status"></div>
+
+    <div id="metrics" class="metrics hidden">
+      <div><span>DOM scan</span><b id="m-dom">-</b></div>
+      <div><span>Redaction</span><b id="m-redact">-</b></div>
+      <div><span>Face detect</span><b id="m-face">-</b></div>
+      <div><span>Server round trip</span><b id="m-net">-</b></div>
+      <div><span>PII regions found</span><b id="m-pii">-</b></div>
+    </div>
+
+    <div id="compare" class="compare hidden">
+      <div class="compare-col">
+        <div class="compare-label">Captured (stays on device)</div>
+        <img id="preview-before" class="preview" />
+      </div>
+      <div class="compare-col">
+        <div class="compare-label">Sent to server</div>
+        <img id="preview" class="preview" />
+      </div>
+    </div>
+
+    <div id="reasoning" class="reasoning hidden"></div>
+
+    <div class="attack-section">
+      <button id="attack-btn" class="attack-btn">Simulate malicious server</button>
+      <div id="attack-result" class="attack-result hidden"></div>
+    </div>
+  </div>
+
+  <!-- Local, lightweight, in-browser face detector (client-side vision model).
+       Loaded from CDN for demo speed; for a Web Store build, bundle these
+       weights locally to satisfy the MV3 remote-code policy. -->
+  <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.13/dist/face-api.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

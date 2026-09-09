@@ -1,0 +1,24 @@
+body { margin: 0; font-family: -apple-system, Segoe UI, Roboto, sans-serif; background: #0f1115; color: #e6e6e6; }
+.wrap { width: 420px; padding: 14px 16px 18px; }
+h1 { font-size: 15px; margin: 0 0 2px; font-weight: 600; }
+.sub { font-size: 11px; color: #8a8f98; margin: 0 0 12px; }
+.lbl { font-size: 11px; color: #8a8f98; display: block; margin-bottom: 4px; }
+input[type="text"] { width: 100%; box-sizing: border-box; padding: 8px; border-radius: 6px; border: 1px solid #2a2e37; background: #171a21; color: #e6e6e6; font-size: 12px; margin-bottom: 10px; }
+button { width: 100%; padding: 9px; border-radius: 6px; border: none; background: #4f7cff; color: white; font-size: 13px; font-weight: 600; cursor: pointer; }
+button:disabled { opacity: 0.5; cursor: default; }
+.status { font-size: 11px; color: #8a8f98; margin-top: 8px; min-height: 14px; }
+.metrics { margin-top: 10px; font-size: 11px; border-top: 1px solid #2a2e37; padding-top: 8px; }
+.metrics div { display: flex; justify-content: space-between; padding: 2px 0; }
+.metrics span { color: #8a8f98; }
+.compare { display: flex; gap: 8px; margin-top: 10px; }
+.compare-col { flex: 1; min-width: 0; }
+.compare-label { font-size: 10px; color: #8a8f98; margin-bottom: 4px; text-align: center; }
+.preview { width: 100%; border-radius: 6px; border: 1px solid #2a2e37; display: block; }
+.reasoning { margin-top: 10px; font-size: 11px; color: #b7bcc7; background: #171a21; padding: 8px; border-radius: 6px; }
+.attack-section { margin-top: 14px; border-top: 1px solid #2a2e37; padding-top: 10px; }
+.attack-btn { background: #3a1d1d; border: 1px solid #7a3030; color: #ff9d9d; }
+.attack-btn:hover { background: #4a2222; }
+.attack-result { margin-top: 8px; font-size: 12px; padding: 8px; border-radius: 6px; font-weight: 600; }
+.attack-result.blocked { background: #12291a; color: #7ee2a0; border: 1px solid #235c3a; }
+.attack-result.leaked { background: #3a1212; color: #ff9d9d; border: 1px solid #7a2323; }
+.hidden { display: none; }
