@@ -1,36 +1,3996 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Demo test page — fake data only</title>
-  <style>
-    body { font-family: sans-serif; max-width: 640px; margin: 40px auto; line-height: 1.6; }
-    label { display: block; margin-top: 14px; font-weight: 600; }
-    input { width: 100%; padding: 8px; box-sizing: border-box; margin-top: 4px; }
-    button { margin-top: 20px; padding: 10px 18px; }
-    .note { color: #666; font-size: 13px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Privacy Vision Agent — SIH Demo</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --bg: #070d1a;
+    --card: #101827;
+    --card2: #0c1524;
+
+    --border: #263449;
+    --border-light: #334155;
+
+    --primary: #2563eb;
+    --primary-light: #3b82f6;
+    --cyan: #06b6d4;
+
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+
+    --text: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --muted: #94a3b8;
+}
+
+/* =========================
+   BODY
+========================= */
+
+body {
+    min-height: 100vh;
+
+    font-family:
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 15% 10%,
+            rgba(37, 99, 235, 0.10),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 85% 20%,
+            rgba(6, 182, 212, 0.08),
+            transparent 30%
+        ),
+        var(--bg);
+
+    color: var(--text);
+}
+
+button,
+input {
+    font-family: inherit;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    background: rgba(7, 13, 26, 0.90);
+
+    backdrop-filter: blur(15px);
+
+    border-bottom: 1px solid var(--border);
+}
+
+.header-inner {
+    max-width: 1400px;
+
+    margin: auto;
+
+    padding: 17px 30px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-icon {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--cyan)
+        );
+
+    box-shadow:
+        0 0 25px rgba(37, 99, 235, 0.35);
+
+    font-size: 21px;
+}
+
+.brand-text h1 {
+    font-size: 18px;
+}
+
+.brand-text p {
+    margin-top: 2px;
+
+    color: var(--muted);
+
+    font-size: 11px;
+}
+
+.nav {
+    display: flex;
+    gap: 7px;
+}
+
+.nav a {
+    color: var(--muted);
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    padding: 8px 12px;
+
+    border-radius: 7px;
+}
+
+.nav a:hover,
+.nav a.active {
+    color: white;
+
+    background:
+        rgba(37, 99, 235, 0.12);
+}
+
+.agent-status {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 8px 13px;
+
+    border-radius: 20px;
+
+    background:
+        rgba(34, 197, 94, 0.07);
+
+    border:
+        1px solid rgba(34, 197, 94, 0.25);
+
+    color: #86efac;
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: var(--success);
+
+    box-shadow:
+        0 0 10px var(--success);
+
+    animation: pulse 1.8s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: .45;
+        transform: scale(.75);
+    }
+}
+
+/* =========================
+   CONTAINER
+========================= */
+
+.container {
+    max-width: 1400px;
+
+    margin: auto;
+
+    padding: 35px 30px 50px;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    display: grid;
+
+    grid-template-columns:
+        1.5fr
+        1fr;
+
+    gap: 22px;
+
+    margin-bottom: 22px;
+}
+
+.hero-card {
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            #111c30,
+            #0d1524
+        );
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 16px;
+
+    padding: 32px;
+
+    box-shadow:
+        0 15px 45px rgba(0, 0, 0, .22);
+}
+
+.badge {
+    display: inline-flex;
+
+    padding: 6px 11px;
+
+    margin-bottom: 16px;
+
+    border-radius: 20px;
+
+    background:
+        rgba(6, 182, 212, .10);
+
+    border:
+        1px solid rgba(6, 182, 212, .20);
+
+    color: #67e8f9;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+.hero-card h2 {
+    max-width: 700px;
+
+    font-size: 30px;
+
+    line-height: 1.2;
+
+    margin-bottom: 12px;
+}
+
+.hero-card h2 span {
+    color: #60a5fa;
+}
+
+.hero-description {
+    max-width: 700px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+    line-height: 1.7;
+
+    margin-bottom: 24px;
+}
+
+.hero-buttons {
+    display: flex;
+
+    gap: 10px;
+
+    flex-wrap: wrap;
+}
+
+.primary-btn,
+.secondary-btn {
+    padding: 11px 18px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    transition: .2s;
+}
+
+.primary-btn {
+    color: white;
+
+    border: 1px solid var(--primary);
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            #1d4ed8
+        );
+
+    box-shadow:
+        0 8px 20px rgba(37, 99, 235, .25);
+}
+
+.primary-btn:hover {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 12px 25px rgba(37, 99, 235, .35);
+}
+
+.secondary-btn {
+    color: var(--text-secondary);
+
+    background: #111827;
+
+    border:
+        1px solid var(--border-light);
+}
+
+.secondary-btn:hover {
+    background: #182235;
+}
+
+/* =========================
+   SCORE
+========================= */
+
+.score-card {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    min-height: 250px;
+}
+
+.score-circle {
+    width: 165px;
+    height: 165px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    border:
+        8px solid rgba(34, 197, 94, .13);
+
+    position: relative;
+}
+
+.score-circle::before {
+    content: "";
+
+    position: absolute;
+
+    inset: -8px;
+
+    border-radius: 50%;
+
+    border:
+        8px solid transparent;
+
+    border-top-color:
+        var(--success);
+
+    border-right-color:
+        var(--success);
+
+    transform: rotate(25deg);
+}
+
+.score-number {
+    font-size: 36px;
+
+    font-weight: 800;
+}
+
+.score-label {
+    color: var(--muted);
+
+    font-size: 11px;
+}
+
+.score-status {
+    margin-top: 10px;
+
+    color: #86efac;
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 15px;
+
+    margin-bottom: 22px;
+}
+
+.stat-card {
+    padding: 19px;
+
+    background: var(--card);
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 12px;
+}
+
+.stat-top {
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-bottom: 13px;
+}
+
+.stat-icon {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        rgba(37, 99, 235, .12);
+
+    border-radius: 8px;
+}
+
+.stat-check {
+    color: var(--success);
+}
+
+.stat-number {
+    font-size: 24px;
+
+    font-weight: 800;
+}
+
+.stat-title {
+    color: var(--muted);
+
+    font-size: 11px;
+
+    margin-top: 3px;
+}
+
+/* =========================
+   MAIN GRID
+========================= */
+
+.main-grid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.45fr)
+        minmax(320px, .8fr);
+
+    gap: 22px;
+}
+
+.card {
+    background: var(--card);
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 14px;
+
+    padding: 23px;
+}
+
+.card-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+}
+
+.card-title {
+    font-size: 15px;
+
+    font-weight: 700;
+}
+
+.card-subtitle {
+    color: var(--muted);
+
+    font-size: 11px;
+
+    margin-top: 4px;
+}
+
+.live-label {
+    height: fit-content;
+
+    padding: 7px 9px;
+
+    border-radius: 5px;
+
+    background:
+        rgba(34, 197, 94, .08);
+
+    color: #86efac;
+
+    font-size: 9px;
+
+    font-weight: 700;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.form-grid {
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    gap: 16px;
+}
+
+.field.full {
+    grid-column: 1 / -1;
+}
+
+label {
+    display: block;
+
+    color: var(--text-secondary);
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    margin-bottom: 7px;
+}
+
+.input-wrapper {
+    position: relative;
+}
+
+input {
+    width: 100%;
+
+    padding: 11px 38px 11px 12px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 7px;
+
+    outline: none;
+
+    background: #0b1321;
+
+    color: white;
+
+    font-size: 13px;
+
+    transition: .2s;
+}
+
+input::placeholder {
+    color: #64748b;
+}
+
+input:focus {
+    border-color:
+        var(--primary-light);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(37, 99, 235, .1);
+}
+
+.input-status {
+    position: absolute;
+
+    right: 11px;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    font-size: 13px;
+}
+
+.valid {
+    color: var(--success);
+}
+
+.invalid {
+    color: var(--danger);
+}
+
+.credit-hint {
+    color: #64748b;
+
+    font-size: 9px;
+
+    margin-top: 5px;
+}
+
+.form-actions {
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 22px;
+}
+
+/* =========================
+   DETECTION
+========================= */
+
+.detection-grid {
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    gap: 10px;
+}
+
+.detection-card {
+    padding: 14px;
+
+    background: var(--card2);
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 10px;
+
+    transition: .2s;
+}
+
+.detection-card:hover {
+    border-color:
+        var(--border-light);
+
+    transform: translateY(-1px);
+}
+
+.detection-top {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 10px;
+}
+
+.detection-icon {
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 7px;
+
+    background:
+        rgba(37, 99, 235, .12);
+}
+
+.protected {
+    color: #86efac;
+
+    font-size: 9px;
+
+    font-weight: 700;
+}
+
+.not-detected {
+    color: #64748b;
+
+    font-size: 9px;
+
+    font-weight: 700;
+}
+
+.detection-name {
+    font-size: 12px;
+
+    font-weight: 700;
+
+    margin-bottom: 4px;
+}
+
+.detection-value {
+    min-height: 15px;
+
+    color: var(--muted);
+
+    font-family: Consolas, monospace;
+
+    font-size: 10px;
+
+    word-break: break-all;
+}
+
+.confidence {
+    margin-top: 11px;
+}
+
+.confidence-row {
+    display: flex;
+
+    justify-content: space-between;
+
+    color: var(--muted);
+
+    font-size: 9px;
+
+    margin-bottom: 4px;
+}
+
+.confidence-bar {
+    height: 4px;
+
+    background: #1e293b;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+
+.confidence-fill {
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--primary),
+            var(--cyan)
+        );
+
+    transition: width .4s;
+}
+
+/* =========================
+   EXPLANATION
+========================= */
+
+.explanation {
+    margin-top: 20px;
+
+    padding: 15px;
+
+    border-radius: 9px;
+
+    background:
+        rgba(37, 99, 235, .06);
+
+    border:
+        1px solid rgba(37, 99, 235, .15);
+}
+
+.explanation-title {
+    color: #93c5fd;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    margin-bottom: 8px;
+}
+
+.explanation p {
+    color: var(--muted);
+
+    font-size: 10px;
+
+    line-height: 1.6;
+}
+
+.explanation strong {
+    color: var(--text-secondary);
+}
+
+/* =========================
+   ACTIVITY
+========================= */
+
+.activity {
+    display: flex;
+
+    flex-direction: column;
+}
+
+.activity-item {
+    position: relative;
+
+    display: flex;
+
+    gap: 12px;
+
+    padding-bottom: 18px;
+}
+
+.activity-dot {
+    width: 11px;
+    height: 11px;
+
+    flex-shrink: 0;
+
+    margin-top: 3px;
+
+    border-radius: 50%;
+
+    background: var(--success);
+
+    box-shadow:
+        0 0 8px rgba(34, 197, 94, .5);
+
+    z-index: 2;
+}
+
+.activity-line {
+    position: absolute;
+
+    left: 5px;
+
+    top: 14px;
+
+    bottom: 0;
+
+    width: 1px;
+
+    background: var(--border);
+}
+
+.activity-content {
+    flex: 1;
+}
+
+.activity-title {
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+.activity-time {
+    color: #64748b;
+
+    font-size: 9px;
+
+    margin-top: 3px;
+}
+
+/* =========================
+   SYSTEM STATUS
+========================= */
+
+.system-status {
+    margin-top: 22px;
+}
+
+.system-row {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 11px 0;
+
+    border-bottom:
+        1px solid rgba(36, 48, 68, .65);
+}
+
+.system-row:last-child {
+    border-bottom: none;
+}
+
+.system-name {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    color: var(--text-secondary);
+
+    font-size: 11px;
+}
+
+.system-icon {
+    width: 23px;
+    height: 23px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 6px;
+
+    background: #172235;
+}
+
+.ready {
+    color: #86efac;
+
+    font-size: 9px;
+
+    font-weight: 700;
+}
+
+/* =========================
+   REDACTION
+========================= */
+
+.privacy-view {
+    margin-top: 22px;
+}
+
+.view-toggle {
+    display: flex;
+
+    padding: 4px;
+
+    margin-bottom: 14px;
+
+    border:
+        1px solid var(--border);
+
+    background: #0a1220;
+
+    border-radius: 8px;
+}
+
+.view-toggle button {
+    flex: 1;
+
+    border: none;
+
+    background: transparent;
+
+    color: var(--muted);
+
+    padding: 8px;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+.view-toggle button.active {
+    background: var(--primary);
+
+    color: white;
+}
+
+.privacy-data {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+.privacy-row {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 11px;
+
+    background: #0c1524;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 7px;
+}
+
+.privacy-type {
+    color: var(--muted);
+
+    font-size: 9px;
+
+    text-transform: uppercase;
+}
+
+.privacy-value {
+    max-width: 70%;
+
+    font-family: Consolas, monospace;
+
+    font-size: 10px;
+
+    text-align: right;
+
+    word-break: break-all;
+}
+
+.redacted {
+    color: #60a5fa;
+
+    letter-spacing: 2px;
+}
+
+/* =========================
+   PIPELINE
+========================= */
+
+.pipeline-card {
+    margin-top: 22px;
+}
+
+.pipeline {
+    display: grid;
+
+    grid-template-columns:
+        1fr auto
+        1fr auto
+        1fr auto
+        1fr;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+.pipeline-step {
+    padding: 17px 10px;
+
+    text-align: center;
+
+    background: var(--card2);
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 10px;
+}
+
+.pipeline-icon {
+    font-size: 22px;
+
+    margin-bottom: 8px;
+}
+
+.pipeline-name {
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+.pipeline-desc {
+    color: var(--muted);
+
+    font-size: 8px;
+
+    margin-top: 4px;
+}
+
+.pipeline-arrow {
+    color: #475569;
+
+    font-size: 17px;
+}
+
+/* =========================
+   SCAN MODAL
+========================= */
+
+.scan-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        rgba(2, 6, 23, .78);
+
+    backdrop-filter: blur(8px);
+
+    z-index: 500;
+}
+
+.scan-overlay.show {
+    display: flex;
+}
+
+.scan-modal {
+    width: min(430px, 90%);
+
+    padding: 30px;
+
+    text-align: center;
+
+    background: #101827;
+
+    border:
+        1px solid var(--border-light);
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 25px 80px rgba(0, 0, 0, .45);
+}
+
+.scanner {
+    width: 70px;
+    height: 70px;
+
+    margin: 0 auto 20px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border:
+        2px solid rgba(37, 99, 235, .3);
+
+    border-top-color:
+        var(--primary-light);
+
+    border-radius: 50%;
+
+    animation: spin 1s linear infinite;
+
+    font-size: 25px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.scan-modal h3 {
+    font-size: 17px;
+
+    margin-bottom: 8px;
+}
+
+.scan-modal p {
+    color: var(--muted);
+
+    font-size: 11px;
+
+    margin-bottom: 18px;
+}
+
+.scan-progress {
+    height: 6px;
+
+    overflow: hidden;
+
+    background: #1e293b;
+
+    border-radius: 10px;
+}
+
+.scan-progress-bar {
+    width: 0%;
+
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--primary),
+            var(--cyan)
+        );
+
+    transition: width .5s;
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast {
+    position: fixed;
+
+    right: 25px;
+
+    bottom: 25px;
+
+    z-index: 1000;
+
+    padding: 13px 16px;
+
+    background: #111827;
+
+    border:
+        1px solid var(--border-light);
+
+    border-left:
+        3px solid var(--success);
+
+    border-radius: 8px;
+
+    box-shadow:
+        0 15px 45px rgba(0,0,0,.3);
+
+    transform: translateY(100px);
+
+    opacity: 0;
+
+    transition: .3s;
+}
+
+.toast.show {
+    transform: translateY(0);
+
+    opacity: 1;
+}
+
+.toast-title {
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+.toast-message {
+    color: var(--muted);
+
+    font-size: 10px;
+
+    margin-top: 3px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    color: #475569;
+
+    text-align: center;
+
+    font-size: 10px;
+
+    line-height: 1.7;
+
+    margin-top: 35px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1000px) {
+
+    .hero {
+        grid-template-columns: 1fr;
+    }
+
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
+
+@media(max-width:700px) {
+
+    .header-inner {
+        padding: 15px 18px;
+    }
+
+    .nav {
+        display: none;
+    }
+
+    .container {
+        padding:
+            22px
+            15px
+            40px;
+    }
+
+    .hero-card {
+        padding: 24px;
+    }
+
+    .hero-card h2 {
+        font-size: 24px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .field.full {
+        grid-column: auto;
+    }
+
+    .detection-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pipeline {
+        grid-template-columns: 1fr;
+    }
+
+    .pipeline-arrow {
+        transform: rotate(90deg);
+    }
+
+}
+
+@media(max-width:450px) {
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .agent-status {
+        display: none;
+    }
+
+}
+
+</style>
 </head>
+
+
 <body>
-  <h1>Contact / signup form (test page)</h1>
-  <p class="note">All values below are fake, for demoing the redaction pipeline only.</p>
 
-  <p>Contact us at demo.user@example.com or call +91 98765 43210.</p>
-  <p>Test card number for the redaction demo: 4111 1111 1111 1111</p>
 
-  <label>Full name</label>
-  <input type="text" placeholder="Jane Doe" />
+<!-- ==================================================
+     HEADER
+================================================== -->
 
-  <label>Email</label>
-  <input type="email" placeholder="jane@example.com" />
+<header class="header">
 
-  <label>Phone</label>
-  <input type="tel" placeholder="+91 90000 00000" />
+    <div class="header-inner">
 
-  <label>Password</label>
-  <input type="password" placeholder="********" />
+        <div class="brand">
 
-  <button id="search-btn">Search</button>
-  <button id="submit-btn">Submit</button>
+            <div class="brand-icon">
+                🛡️
+            </div>
+
+            <div class="brand-text">
+
+                <h1>
+                    Privacy Vision Agent
+                </h1>
+
+                <p>
+                    On-device visual perception & privacy-preserving automation
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <nav class="nav">
+
+            <a href="#" class="active">
+                Dashboard
+            </a>
+
+            <a href="#scan">
+                Live Scan
+            </a>
+
+            <a href="#automation">
+                Automation
+            </a>
+
+            <a href="#logs">
+                Logs
+            </a>
+
+        </nav>
+
+
+        <div class="agent-status">
+
+            <span class="status-dot"></span>
+
+            Agent Active
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- ==================================================
+     MAIN
+================================================== -->
+
+<main class="container">
+
+
+<!-- ==================================================
+     HERO
+================================================== -->
+
+<section class="hero">
+
+
+    <div class="hero-card">
+
+        <div class="badge">
+            ● SIH 26171 • DEMONSTRATION ENVIRONMENT
+        </div>
+
+
+        <h2>
+
+            Privacy protection for
+            <span>
+                intelligent browser automation.
+            </span>
+
+        </h2>
+
+
+        <p class="hero-description">
+
+            Privacy Vision Agent detects sensitive information
+            from the current webpage, validates it locally,
+            evaluates privacy risks, and protects sensitive
+            information before browser automation proceeds.
+
+        </p>
+
+
+        <div class="hero-buttons">
+
+            <button
+                class="primary-btn"
+                id="scanButton"
+                onclick="startScan()"
+            >
+                🔍 Scan Page
+            </button>
+
+
+            <button
+                class="secondary-btn"
+                onclick="togglePrivacy()"
+            >
+                🔒 Privacy View
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- SCORE -->
+
+    <div class="hero-card score-card">
+
+        <div>
+
+            <div class="score-circle">
+
+                <div
+                    class="score-number"
+                    id="privacyScore"
+                >
+                    0%
+                </div>
+
+                <div class="score-label">
+                    Privacy Score
+                </div>
+
+            </div>
+
+
+            <div
+                class="score-status"
+                id="scoreStatus"
+            >
+                Waiting for scan
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==================================================
+     STATS
+================================================== -->
+
+<section class="stats-grid">
+
+
+    <div class="stat-card">
+
+        <div class="stat-top">
+
+            <div class="stat-icon">
+                👁️
+            </div>
+
+            <div class="stat-check">
+                ✓
+            </div>
+
+        </div>
+
+        <div
+            class="stat-number"
+            id="detectedCount"
+        >
+            0
+        </div>
+
+        <div class="stat-title">
+            Sensitive Elements Detected
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-top">
+
+            <div class="stat-icon">
+                🔒
+            </div>
+
+            <div class="stat-check">
+                ✓
+            </div>
+
+        </div>
+
+        <div
+            class="stat-number"
+            id="protectedCount"
+        >
+            0
+        </div>
+
+        <div class="stat-title">
+            Elements Protected
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-top">
+
+            <div class="stat-icon">
+                🧠
+            </div>
+
+            <div class="stat-check">
+                ✓
+            </div>
+
+        </div>
+
+        <div
+            class="stat-number"
+            id="confidenceStat"
+        >
+            0%
+        </div>
+
+        <div class="stat-title">
+            Detection Confidence
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-top">
+
+            <div class="stat-icon">
+                ⚡
+            </div>
+
+            <div class="stat-check">
+                ✓
+            </div>
+
+        </div>
+
+        <div
+            class="stat-number"
+            id="processingTime"
+        >
+            0ms
+        </div>
+
+        <div class="stat-title">
+            Average Processing Time
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==================================================
+     MAIN GRID
+================================================== -->
+
+<section class="main-grid">
+
+
+<!-- ==================================================
+     LEFT COLUMN
+================================================== -->
+
+<div>
+
+
+<!-- FORM -->
+
+<section class="card" id="scan">
+
+
+    <div class="card-header">
+
+        <div>
+
+            <div class="card-title">
+                Contact & Registration
+            </div>
+
+            <div class="card-subtitle">
+                Protected form interaction environment
+            </div>
+
+        </div>
+
+
+        <span class="live-label">
+            PRIVACY TEST MODE
+        </span>
+
+    </div>
+
+
+    <div class="form-grid">
+
+
+        <!-- NAME -->
+
+        <div class="field">
+
+            <label for="name">
+                FULL NAME
+            </label>
+
+            <div class="input-wrapper">
+
+                <input
+                    id="name"
+                    type="text"
+                    placeholder="Jane Doe"
+                >
+
+                <span
+                    class="input-status"
+                    id="nameStatus"
+                ></span>
+
+            </div>
+
+        </div>
+
+
+        <!-- EMAIL -->
+
+        <div class="field">
+
+            <label for="email">
+                EMAIL ADDRESS
+            </label>
+
+            <div class="input-wrapper">
+
+                <input
+                    id="email"
+                    type="email"
+                    placeholder="jane@example.com"
+                >
+
+                <span
+                    class="input-status"
+                    id="emailStatus"
+                ></span>
+
+            </div>
+
+        </div>
+
+
+        <!-- PHONE -->
+
+        <div class="field">
+
+            <label for="phone">
+                PHONE NUMBER
+            </label>
+
+            <div class="input-wrapper">
+
+                <input
+                    id="phone"
+                    type="tel"
+                    inputmode="numeric"
+                    maxlength="10"
+                    placeholder="9876543210"
+                >
+
+                <span
+                    class="input-status"
+                    id="phoneStatus"
+                ></span>
+
+            </div>
+
+        </div>
+
+
+        <!-- PASSWORD -->
+
+        <div class="field">
+
+            <label for="password">
+                PASSWORD
+            </label>
+
+            <div class="input-wrapper">
+
+                <input
+                    id="password"
+                    type="password"
+                    placeholder="Enter password"
+                >
+
+                <span
+                    class="input-status"
+                    id="passwordStatus"
+                ></span>
+
+            </div>
+
+        </div>
+
+
+        <!-- CREDIT CARD -->
+
+        <div class="field full">
+
+            <label for="cardNumber">
+                CREDIT CARD NUMBER
+            </label>
+
+            <div class="input-wrapper">
+
+                <input
+                    id="cardNumber"
+                    type="text"
+                    inputmode="numeric"
+                    maxlength="19"
+                    placeholder="4111 1111 1111 1111"
+                >
+
+                <span
+                    class="input-status"
+                    id="cardStatus"
+                ></span>
+
+            </div>
+
+            <div class="credit-hint">
+                Demo only • 13–19 digits • Luhn validation
+            </div>
+
+        </div>
+
+
+        <!-- SEARCH -->
+
+        <div class="field full">
+
+            <label for="search">
+                SEARCH QUERY
+            </label>
+
+            <input
+                id="search"
+                type="text"
+                placeholder="Search something..."
+            >
+
+        </div>
+
+    </div>
+
+
+    <div class="form-actions">
+
+        <button
+            class="secondary-btn"
+            onclick="performSearch()"
+        >
+            🔎 Search
+        </button>
+
+
+        <button
+            class="primary-btn"
+            onclick="submitRegistration()"
+        >
+            ✓ Submit Registration
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ==================================================
+     DETECTION CARDS
+================================================== -->
+
+<section
+    class="card"
+    style="margin-top:22px;"
+>
+
+
+    <div class="card-header">
+
+        <div>
+
+            <div class="card-title">
+                Detected Sensitive Data
+            </div>
+
+            <div class="card-subtitle">
+                Results generated from your current input
+            </div>
+
+        </div>
+
+
+        <span class="live-label">
+            LIVE ANALYSIS
+        </span>
+
+    </div>
+
+
+    <div class="detection-grid">
+
+
+        <!-- EMAIL -->
+
+        <div class="detection-card">
+
+            <div class="detection-top">
+
+                <div class="detection-icon">
+                    ✉️
+                </div>
+
+                <span
+                    class="not-detected"
+                    id="emailProtection"
+                >
+                    NOT DETECTED
+                </span>
+
+            </div>
+
+            <div class="detection-name">
+                Email Address
+            </div>
+
+            <div
+                class="detection-value"
+                id="detectedEmail"
+            >
+                —
+            </div>
+
+            <div class="confidence">
+
+                <div class="confidence-row">
+
+                    <span>
+                        Confidence
+                    </span>
+
+                    <span id="emailConfidence">
+                        0%
+                    </span>
+
+                </div>
+
+                <div class="confidence-bar">
+
+                    <div
+                        class="confidence-fill"
+                        id="emailConfidenceBar"
+                        style="width:0%"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PHONE -->
+
+        <div class="detection-card">
+
+            <div class="detection-top">
+
+                <div class="detection-icon">
+                    ☎️
+                </div>
+
+                <span
+                    class="not-detected"
+                    id="phoneProtection"
+                >
+                    NOT DETECTED
+                </span>
+
+            </div>
+
+            <div class="detection-name">
+                Phone Number
+            </div>
+
+            <div
+                class="detection-value"
+                id="detectedPhone"
+            >
+                —
+            </div>
+
+            <div class="confidence">
+
+                <div class="confidence-row">
+
+                    <span>
+                        Confidence
+                    </span>
+
+                    <span id="phoneConfidence">
+                        0%
+                    </span>
+
+                </div>
+
+                <div class="confidence-bar">
+
+                    <div
+                        class="confidence-fill"
+                        id="phoneConfidenceBar"
+                        style="width:0%"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CARD -->
+
+        <div class="detection-card">
+
+            <div class="detection-top">
+
+                <div class="detection-icon">
+                    💳
+                </div>
+
+                <span
+                    class="not-detected"
+                    id="cardProtection"
+                >
+                    NOT DETECTED
+                </span>
+
+            </div>
+
+            <div class="detection-name">
+                Credit Card
+            </div>
+
+            <div
+                class="detection-value"
+                id="detectedCard"
+            >
+                —
+            </div>
+
+            <div class="confidence">
+
+                <div class="confidence-row">
+
+                    <span>
+                        Confidence
+                    </span>
+
+                    <span id="cardConfidence">
+                        0%
+                    </span>
+
+                </div>
+
+                <div class="confidence-bar">
+
+                    <div
+                        class="confidence-fill"
+                        id="cardConfidenceBar"
+                        style="width:0%"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PASSWORD -->
+
+        <div class="detection-card">
+
+            <div class="detection-top">
+
+                <div class="detection-icon">
+                    🔑
+                </div>
+
+                <span
+                    class="not-detected"
+                    id="passwordProtection"
+                >
+                    NOT DETECTED
+                </span>
+
+            </div>
+
+            <div class="detection-name">
+                Password Field
+            </div>
+
+            <div
+                class="detection-value"
+                id="detectedPassword"
+            >
+                —
+            </div>
+
+            <div class="confidence">
+
+                <div class="confidence-row">
+
+                    <span>
+                        Confidence
+                    </span>
+
+                    <span id="passwordConfidence">
+                        0%
+                    </span>
+
+                </div>
+
+                <div class="confidence-bar">
+
+                    <div
+                        class="confidence-fill"
+                        id="passwordConfidenceBar"
+                        style="width:0%"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- EXPLANATION -->
+
+    <div class="explanation">
+
+        <div class="explanation-title">
+            🧠 Why was this detected?
+        </div>
+
+        <p id="explanationText">
+
+            Enter information into the form and click
+            <strong>Scan Page</strong>.
+
+            The privacy engine will analyze your current
+            inputs and display the detected information here.
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ==================================================
+     REDACTION
+================================================== -->
+
+<section class="card privacy-view">
+
+
+    <div class="card-header">
+
+        <div>
+
+            <div class="card-title">
+                Visual Privacy Redaction
+            </div>
+
+            <div class="card-subtitle">
+                Compare your original input with the protected view
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="view-toggle">
+
+        <button
+            id="normalBtn"
+            class="active"
+            onclick="setView('normal')"
+        >
+            NORMAL VIEW
+        </button>
+
+
+        <button
+            id="privateBtn"
+            onclick="setView('private')"
+        >
+            PRIVACY VIEW
+        </button>
+
+    </div>
+
+
+    <div class="privacy-data">
+
+
+        <div class="privacy-row">
+
+            <span class="privacy-type">
+                Name
+            </span>
+
+            <span
+                class="privacy-value"
+                id="privacyName"
+            >
+                —
+            </span>
+
+        </div>
+
+
+        <div class="privacy-row">
+
+            <span class="privacy-type">
+                Email
+            </span>
+
+            <span
+                class="privacy-value"
+                id="privacyEmail"
+            >
+                —
+            </span>
+
+        </div>
+
+
+        <div class="privacy-row">
+
+            <span class="privacy-type">
+                Phone
+            </span>
+
+            <span
+                class="privacy-value"
+                id="privacyPhone"
+            >
+                —
+            </span>
+
+        </div>
+
+
+        <div class="privacy-row">
+
+            <span class="privacy-type">
+                Credit Card
+            </span>
+
+            <span
+                class="privacy-value"
+                id="privacyCard"
+            >
+                —
+            </span>
+
+        </div>
+
+
+        <div class="privacy-row">
+
+            <span class="privacy-type">
+                Password
+            </span>
+
+            <span
+                class="privacy-value"
+                id="privacyPassword"
+            >
+                —
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+</div>
+
+
+<!-- ==================================================
+     RIGHT COLUMN
+================================================== -->
+
+<aside>
+
+
+<!-- ACTIVITY -->
+
+<section
+    class="card"
+    id="logs"
+>
+
+
+    <div class="card-header">
+
+        <div>
+
+            <div class="card-title">
+                Agent Activity
+            </div>
+
+            <div class="card-subtitle">
+                Real-time privacy analysis events
+            </div>
+
+        </div>
+
+
+        <span class="live-label">
+            LIVE
+        </span>
+
+    </div>
+
+
+    <div
+        class="activity"
+        id="activityList"
+    >
+
+        <div class="activity-item">
+
+            <div class="activity-dot"></div>
+
+            <div class="activity-content">
+
+                <div class="activity-title">
+                    Privacy protection initialized
+                </div>
+
+                <div class="activity-time">
+                    Just now
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- SYSTEM -->
+
+<section
+    class="card system-status"
+    id="automation"
+>
+
+
+    <div class="card-header">
+
+        <div>
+
+            <div class="card-title">
+                Agent Components
+            </div>
+
+            <div class="card-subtitle">
+                System readiness
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="system-row">
+
+        <div class="system-name">
+            <span class="system-icon">
+                👁️
+            </span>
+            Visual Perception
+        </div>
+
+        <span class="ready">
+            READY ✓
+        </span>
+
+    </div>
+
+
+    <div class="system-row">
+
+        <div class="system-name">
+            <span class="system-icon">
+                🧠
+            </span>
+            Sensitive Data Scanner
+        </div>
+
+        <span class="ready">
+            RUNNING ✓
+        </span>
+
+    </div>
+
+
+    <div class="system-row">
+
+        <div class="system-name">
+            <span class="system-icon">
+                🛡️
+            </span>
+            Privacy Policy Engine
+        </div>
+
+        <span class="ready">
+            ACTIVE ✓
+        </span>
+
+    </div>
+
+
+    <div class="system-row">
+
+        <div class="system-name">
+            <span class="system-icon">
+                🔒
+            </span>
+            Visual Redaction
+        </div>
+
+        <span class="ready">
+            ACTIVE ✓
+        </span>
+
+    </div>
+
+
+    <div class="system-row">
+
+        <div class="system-name">
+            <span class="system-icon">
+                🤖
+            </span>
+            Browser Automation
+        </div>
+
+        <span class="ready">
+            READY ✓
+        </span>
+
+    </div>
+
+
+    <div class="system-row">
+
+        <div class="system-name">
+            <span class="system-icon">
+                💻
+            </span>
+            Local Processing
+        </div>
+
+        <span class="ready">
+            ENABLED ✓
+        </span>
+
+    </div>
+
+</section>
+
+</aside>
+
+</section>
+
+
+<!-- ==================================================
+     PIPELINE
+================================================== -->
+
+<section class="card pipeline-card">
+
+
+    <div class="card-header">
+
+        <div>
+
+            <div class="card-title">
+                Privacy Vision Pipeline
+            </div>
+
+            <div class="card-subtitle">
+                From webpage perception to protected automation
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="pipeline">
+
+
+        <div class="pipeline-step">
+
+            <div class="pipeline-icon">
+                👁️
+            </div>
+
+            <div class="pipeline-name">
+                Visual Perception
+            </div>
+
+            <div class="pipeline-desc">
+                Understand webpage
+            </div>
+
+        </div>
+
+
+        <div class="pipeline-arrow">
+            →
+        </div>
+
+
+        <div class="pipeline-step">
+
+            <div class="pipeline-icon">
+                🧠
+            </div>
+
+            <div class="pipeline-name">
+                Detection
+            </div>
+
+            <div class="pipeline-desc">
+                Identify sensitive data
+            </div>
+
+        </div>
+
+
+        <div class="pipeline-arrow">
+            →
+        </div>
+
+
+        <div class="pipeline-step">
+
+            <div class="pipeline-icon">
+                🛡️
+            </div>
+
+            <div class="pipeline-name">
+                Policy Engine
+            </div>
+
+            <div class="pipeline-desc">
+                Evaluate privacy risk
+            </div>
+
+        </div>
+
+
+        <div class="pipeline-arrow">
+            →
+        </div>
+
+
+        <div class="pipeline-step">
+
+            <div class="pipeline-icon">
+                🔒
+            </div>
+
+            <div class="pipeline-name">
+                Visual Redaction
+            </div>
+
+            <div class="pipeline-desc">
+                Protect sensitive regions
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    <div>
+        Privacy Vision Agent • Smart Automation • SIH 26171
+    </div>
+
+    <div>
+        Demonstration environment • Synthetic data only •
+        Privacy-first architecture
+    </div>
+
+</footer>
+
+</main>
+
+
+<!-- ==================================================
+     SCAN MODAL
+================================================== -->
+
+<div
+    class="scan-overlay"
+    id="scanOverlay"
+>
+
+    <div class="scan-modal">
+
+        <div class="scanner">
+            👁️
+        </div>
+
+        <h3 id="scanTitle">
+            Scanning webpage...
+        </h3>
+
+        <p id="scanDescription">
+            Initializing visual perception engine
+        </p>
+
+        <div class="scan-progress">
+
+            <div
+                class="scan-progress-bar"
+                id="scanProgress"
+            ></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ==================================================
+     TOAST
+================================================== -->
+
+<div
+    class="toast"
+    id="toast"
+>
+
+    <div
+        class="toast-title"
+        id="toastTitle"
+    >
+        Privacy Vision Agent
+    </div>
+
+    <div
+        class="toast-message"
+        id="toastMessage"
+    >
+        Operation completed.
+    </div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   HELPERS
+===================================================== */
+
+function get(id) {
+    return document.getElementById(id);
+}
+
+
+/* =====================================================
+   EMAIL VALIDATION
+===================================================== */
+
+function isValidEmail(email) {
+
+    const pattern =
+        /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+    return pattern.test(email);
+
+}
+
+
+/* =====================================================
+   PHONE VALIDATION
+   EXACTLY 10 DIGITS
+===================================================== */
+
+function isValidPhone(phone) {
+
+    return /^\d{10}$/.test(phone);
+
+}
+
+
+/* =====================================================
+   CREDIT CARD
+   LUHN VALIDATION
+===================================================== */
+
+function isValidCard(card) {
+
+    const digits =
+        card.replace(/\D/g, "");
+
+    if (
+        digits.length < 13 ||
+        digits.length > 19
+    ) {
+        return false;
+    }
+
+    let sum = 0;
+
+    let shouldDouble = false;
+
+
+    for (
+        let i = digits.length - 1;
+        i >= 0;
+        i--
+    ) {
+
+        let digit =
+            parseInt(digits[i]);
+
+
+        if (shouldDouble) {
+
+            digit *= 2;
+
+            if (digit > 9) {
+                digit -= 9;
+            }
+
+        }
+
+
+        sum += digit;
+
+        shouldDouble =
+            !shouldDouble;
+
+    }
+
+
+    return sum % 10 === 0;
+
+}
+
+
+/* =====================================================
+   CARD FORMATTING
+===================================================== */
+
+get("cardNumber")
+    .addEventListener("input", function() {
+
+        let digits =
+            this.value
+                .replace(/\D/g, "")
+                .slice(0, 19);
+
+
+        let formatted =
+            digits.match(/.{1,4}/g);
+
+
+        this.value =
+            formatted
+                ? formatted.join(" ")
+                : "";
+
+        updateValidation();
+
+    });
+
+
+/* =====================================================
+   PHONE INPUT
+===================================================== */
+
+get("phone")
+    .addEventListener("input", function() {
+
+        this.value =
+            this.value
+                .replace(/\D/g, "")
+                .slice(0, 10);
+
+        updateValidation();
+
+    });
+
+
+/* =====================================================
+   REAL-TIME VALIDATION
+===================================================== */
+
+[
+    "name",
+    "email",
+    "password"
+].forEach(id => {
+
+    get(id).addEventListener(
+        "input",
+        updateValidation
+    );
+
+});
+
+
+function setStatus(
+    statusId,
+    valid,
+    hasValue
+) {
+
+    const element =
+        get(statusId);
+
+
+    if (!hasValue) {
+
+        element.textContent = "";
+
+        return;
+
+    }
+
+
+    element.textContent =
+        valid ? "✓" : "✕";
+
+
+    element.className =
+        "input-status " +
+        (valid
+            ? "valid"
+            : "invalid");
+
+}
+
+
+function updateValidation() {
+
+    const name =
+        get("name").value.trim();
+
+    const email =
+        get("email").value.trim();
+
+    const phone =
+        get("phone").value.trim();
+
+    const password =
+        get("password").value;
+
+    const card =
+        get("cardNumber").value.trim();
+
+
+    setStatus(
+        "nameStatus",
+        name.length >= 2,
+        name.length > 0
+    );
+
+
+    setStatus(
+        "emailStatus",
+        isValidEmail(email),
+        email.length > 0
+    );
+
+
+    setStatus(
+        "phoneStatus",
+        isValidPhone(phone),
+        phone.length > 0
+    );
+
+
+    setStatus(
+        "passwordStatus",
+        password.length >= 6,
+        password.length > 0
+    );
+
+
+    setStatus(
+        "cardStatus",
+        isValidCard(card),
+        card.length > 0
+    );
+
+}
+
+
+/* =====================================================
+   DYNAMIC PRIVACY DATA
+===================================================== */
+
+function updatePrivacyData() {
+
+    const name =
+        get("name").value.trim();
+
+    const email =
+        get("email").value.trim();
+
+    const phone =
+        get("phone").value.trim();
+
+    const card =
+        get("cardNumber").value.trim();
+
+    const password =
+        get("password").value;
+
+
+    get("privacyName").textContent =
+        name || "—";
+
+    get("privacyEmail").textContent =
+        email || "—";
+
+    get("privacyPhone").textContent =
+        phone || "—";
+
+    get("privacyCard").textContent =
+        card || "—";
+
+    get("privacyPassword").textContent =
+        password
+            ? "•".repeat(password.length)
+            : "—";
+
+}
+
+
+/* =====================================================
+   REDACTION FUNCTIONS
+===================================================== */
+
+function maskEmail(email) {
+
+    if (!email) return "—";
+
+    const parts =
+        email.split("@");
+
+    if (parts.length !== 2) {
+        return "••••••";
+    }
+
+    const username =
+        parts[0];
+
+    const domain =
+        parts[1];
+
+
+    const visible =
+        username.length > 1
+            ? username[0]
+            : "";
+
+
+    return (
+        visible +
+        "••••••@" +
+        domain
+    );
+
+}
+
+
+function maskPhone(phone) {
+
+    if (!phone) return "—";
+
+    if (phone.length < 4) {
+        return "••••••";
+    }
+
+    return (
+        "••••••" +
+        phone.slice(-4)
+    );
+
+}
+
+
+function maskCard(card) {
+
+    if (!card) return "—";
+
+    const digits =
+        card.replace(/\D/g, "");
+
+    if (digits.length < 4) {
+        return "••••";
+    }
+
+    return (
+        "•••• •••• •••• " +
+        digits.slice(-4)
+    );
+
+}
+
+
+function maskName(name) {
+
+    if (!name) return "—";
+
+    const parts =
+        name.split(/\s+/);
+
+    return parts
+        .map(word => {
+
+            if (word.length <= 1) {
+                return "•";
+            }
+
+            return (
+                word[0] +
+                "•".repeat(
+                    Math.min(
+                        word.length - 1,
+                        5
+                    )
+                )
+            );
+
+        })
+        .join(" ");
+
+}
+
+
+/* =====================================================
+   PRIVACY VIEW
+===================================================== */
+
+let privacyMode = false;
+
+
+function setView(mode) {
+
+    privacyMode =
+        mode === "private";
+
+
+    const name =
+        get("name").value.trim();
+
+    const email =
+        get("email").value.trim();
+
+    const phone =
+        get("phone").value.trim();
+
+    const card =
+        get("cardNumber").value.trim();
+
+    const password =
+        get("password").value;
+
+
+    if (privacyMode) {
+
+        get("privacyName").textContent =
+            maskName(name);
+
+        get("privacyEmail").textContent =
+            maskEmail(email);
+
+        get("privacyPhone").textContent =
+            maskPhone(phone);
+
+        get("privacyCard").textContent =
+            maskCard(card);
+
+        get("privacyPassword").textContent =
+            password
+                ? "•".repeat(password.length)
+                : "—";
+
+
+        get("normalBtn")
+            .classList
+            .remove("active");
+
+        get("privateBtn")
+            .classList
+            .add("active");
+
+
+        document
+            .querySelectorAll(".privacy-value")
+            .forEach(el => {
+
+                el.classList.add(
+                    "redacted"
+                );
+
+            });
+
+
+        addActivity(
+            "Privacy view enabled — sensitive data masked"
+        );
+
+    }
+
+    else {
+
+        updatePrivacyData();
+
+
+        get("normalBtn")
+            .classList
+            .add("active");
+
+        get("privateBtn")
+            .classList
+            .remove("active");
+
+
+        document
+            .querySelectorAll(".privacy-value")
+            .forEach(el => {
+
+                el.classList.remove(
+                    "redacted"
+                );
+
+            });
+
+    }
+
+}
+
+
+function togglePrivacy() {
+
+    setView(
+        privacyMode
+            ? "normal"
+            : "private"
+    );
+
+}
+
+
+/* =====================================================
+   UPDATE DETECTION CARD
+===================================================== */
+
+function updateDetectionCard(
+    type,
+    value,
+    confidence,
+    detected,
+    message
+) {
+
+    get(
+        "detected" +
+        type
+    ).textContent =
+        detected
+            ? value
+            : "—";
+
+
+    get(
+        type.toLowerCase() +
+        "Confidence"
+    ).textContent =
+        detected
+            ? confidence + "%"
+            : "0%";
+
+
+    get(
+        type.toLowerCase() +
+        "ConfidenceBar"
+    ).style.width =
+        detected
+            ? confidence + "%"
+            : "0%";
+
+
+    const protection =
+        get(
+            type.toLowerCase() +
+            "Protection"
+        );
+
+
+    protection.textContent =
+        detected
+            ? "PROTECTED ✓"
+            : "NOT DETECTED";
+
+
+    protection.className =
+        detected
+            ? "protected"
+            : "not-detected";
+
+}
+
+
+/* =====================================================
+   SCAN PAGE
+===================================================== */
+
+function startScan() {
+
+    updateValidation();
+
+    updatePrivacyData();
+
+
+    const name =
+        get("name").value.trim();
+
+    const email =
+        get("email").value.trim();
+
+    const phone =
+        get("phone").value.trim();
+
+    const card =
+        get("cardNumber").value.trim();
+
+    const password =
+        get("password").value;
+
+
+    const emailValid =
+        isValidEmail(email);
+
+    const phoneValid =
+        isValidPhone(phone);
+
+    const cardValid =
+        isValidCard(card);
+
+    const passwordValid =
+        password.length >= 6;
+
+    const nameValid =
+        name.length >= 2;
+
+
+    const detections = [
+
+        {
+            type: "Email",
+            detected: emailValid,
+            value: email,
+            confidence: emailValid ? 99 : 0
+        },
+
+        {
+            type: "Phone",
+            detected: phoneValid,
+            value: phone,
+            confidence: phoneValid ? 98 : 0
+        },
+
+        {
+            type: "Card",
+            detected: cardValid,
+            value: card,
+            confidence: cardValid ? 99 : 0
+        },
+
+        {
+            type: "Password",
+            detected: passwordValid,
+            value: "••••••••",
+            confidence: passwordValid ? 100 : 0
+        }
+
+    ];
+
+
+    const detected =
+        detections.filter(
+            item => item.detected
+        );
+
+
+    const overlay =
+        get("scanOverlay");
+
+    const progress =
+        get("scanProgress");
+
+    const title =
+        get("scanTitle");
+
+    const description =
+        get("scanDescription");
+
+
+    overlay.classList.add("show");
+
+
+    const stages = [
+
+        [
+            15,
+            "Initializing visual perception...",
+            "Reading current webpage structure"
+        ],
+
+        [
+            35,
+            "Analyzing form fields...",
+            "Inspecting current user input"
+        ],
+
+        [
+            55,
+            "Detecting sensitive information...",
+            "Running privacy pattern analysis"
+        ],
+
+        [
+            75,
+            "Validating detected data...",
+            "Checking email, phone and card patterns"
+        ],
+
+        [
+            90,
+            "Applying privacy policy...",
+            "Preparing sensitive information for protection"
+        ],
+
+        [
+            100,
+            "Scan complete ✓",
+            detected.length +
+            " sensitive elements detected"
+        ]
+
+    ];
+
+
+    let index = 0;
+
+
+    function nextStage() {
+
+        if (index >= stages.length) {
+
+            setTimeout(() => {
+
+                overlay.classList.remove("show");
+
+                applyDetectionResults(
+                    detections
+                );
+
+                addActivity(
+                    "Privacy scan completed — " +
+                    detected.length +
+                    " sensitive elements detected"
+                );
+
+
+                showToast(
+                    "Scan Complete",
+                    detected.length +
+                    " sensitive elements detected and analyzed."
+                );
+
+            }, 600);
+
+            return;
+
+        }
+
+
+        progress.style.width =
+            stages[index][0] + "%";
+
+
+        title.textContent =
+            stages[index][1];
+
+
+        description.textContent =
+            stages[index][2];
+
+
+        index++;
+
+        setTimeout(
+            nextStage,
+            650
+        );
+
+    }
+
+
+    nextStage();
+
+}
+
+
+/* =====================================================
+   APPLY SCAN RESULTS
+===================================================== */
+
+function applyDetectionResults(
+    detections
+) {
+
+    let totalConfidence = 0;
+
+    let detectedCount = 0;
+
+
+    detections.forEach(item => {
+
+        const id =
+            item.type.toLowerCase();
+
+
+        if (item.detected) {
+
+            detectedCount++;
+
+            totalConfidence +=
+                item.confidence;
+
+        }
+
+
+        updateDetectionCard(
+            item.type,
+            item.value,
+            item.confidence,
+            item.detected
+        );
+
+    });
+
+
+    get("detectedCount")
+        .textContent =
+        detectedCount;
+
+
+    get("protectedCount")
+        .textContent =
+        detectedCount;
+
+
+    const avg =
+        detectedCount > 0
+            ? Math.round(
+                totalConfidence /
+                detectedCount
+            )
+            : 0;
+
+
+    get("confidenceStat")
+        .textContent =
+        avg + "%";
+
+
+    const processing =
+        detectedCount === 0
+            ? 18
+            : 28 + detectedCount * 7;
+
+
+    get("processingTime")
+        .textContent =
+        processing + "ms";
+
+
+    let score = 100;
+
+
+    /*
+       Lower the privacy score when
+       sensitive data exists and is not
+       yet protected.
+    */
+
+    if (detectedCount > 0) {
+
+        score =
+            Math.max(
+                65,
+                100 -
+                detectedCount * 5
+            );
+
+    }
+
+
+    get("privacyScore")
+        .textContent =
+        score + "%";
+
+
+    get("scoreStatus")
+        .textContent =
+        detectedCount > 0
+            ? "✓ Sensitive data protected"
+            : "✓ No sensitive data detected";
+
+
+    if (detectedCount > 0) {
+
+        get("explanationText").innerHTML =
+
+            "<strong>" +
+            detectedCount +
+            " sensitive element(s)</strong> were identified " +
+
+            "from the information currently entered into the form. " +
+
+            "Email addresses are checked using email structure, " +
+
+            "phone numbers require exactly 10 digits, and credit " +
+
+            "card numbers are validated using a Luhn checksum. " +
+
+            "<br><br>" +
+
+            "<strong>Action:</strong> " +
+
+            "Sensitive information can now be visually redacted " +
+
+            "before browser automation interacts with the page.";
+
+    }
+
+    else {
+
+        get("explanationText").innerHTML =
+
+            "No valid sensitive information was detected. " +
+
+            "Enter valid information and run " +
+
+            "<strong>Scan Page</strong> to analyze the current form.";
+
+    }
+
+
+    /*
+       Automatically refresh privacy view
+       using current values.
+    */
+
+    if (privacyMode) {
+
+        setView("private");
+
+    }
+
+}
+
+
+/* =====================================================
+   ACTIVITY LOG
+===================================================== */
+
+function addActivity(message) {
+
+    const list =
+        get("activityList");
+
+
+    const item =
+        document.createElement("div");
+
+
+    item.className =
+        "activity-item";
+
+
+    item.innerHTML = `
+
+        <div class="activity-dot"></div>
+
+        <div class="activity-line"></div>
+
+        <div class="activity-content">
+
+            <div class="activity-title">
+                ${message}
+            </div>
+
+            <div class="activity-time">
+                Just now
+            </div>
+
+        </div>
+
+    `;
+
+
+    list.insertBefore(
+        item,
+        list.firstChild
+    );
+
+
+    /*
+       Keep activity panel from
+       becoming unnecessarily huge.
+    */
+
+    while (
+        list.children.length > 8
+    ) {
+
+        list.removeChild(
+            list.lastChild
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+function performSearch() {
+
+    const query =
+        get("search").value.trim();
+
+
+    if (!query) {
+
+        showToast(
+            "Search",
+            "Enter a search query first."
+        );
+
+        return;
+
+    }
+
+
+    addActivity(
+        "Search request detected: " +
+        query
+    );
+
+
+    showToast(
+        "Search Request",
+        "Browser automation request prepared."
+    );
+
+}
+
+
+/* =====================================================
+   REGISTRATION
+===================================================== */
+
+function submitRegistration() {
+
+    updateValidation();
+
+
+    const name =
+        get("name").value.trim();
+
+    const email =
+        get("email").value.trim();
+
+    const phone =
+        get("phone").value.trim();
+
+    const password =
+        get("password").value;
+
+    const card =
+        get("cardNumber").value.trim();
+
+
+    if (!name || name.length < 2) {
+
+        showToast(
+            "Invalid Name",
+            "Enter a valid full name."
+        );
+
+        return;
+
+    }
+
+
+    if (!isValidEmail(email)) {
+
+        showToast(
+            "Invalid Email",
+            "Please enter a valid email address."
+        );
+
+        return;
+
+    }
+
+
+    if (!isValidPhone(phone)) {
+
+        showToast(
+            "Invalid Phone",
+            "Phone number must contain exactly 10 digits."
+        );
+
+        return;
+
+    }
+
+
+    if (!isValidCard(card)) {
+
+        showToast(
+            "Invalid Card",
+            "Enter a valid demo card number."
+        );
+
+        return;
+
+    }
+
+
+    if (password.length < 6) {
+
+        showToast(
+            "Invalid Password",
+            "Password must contain at least 6 characters."
+        );
+
+        return;
+
+    }
+
+
+    addActivity(
+        "Registration request authorized"
+    );
+
+
+    showToast(
+        "Registration Protected",
+        "All sensitive fields passed validation."
+    );
+
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function showToast(
+    title,
+    message
+) {
+
+    const toast =
+        get("toast");
+
+
+    get("toastTitle")
+        .textContent =
+        title;
+
+
+    get("toastMessage")
+        .textContent =
+        message;
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    setTimeout(() => {
+
+        toast.classList.remove(
+            "show"
+        );
+
+    }, 3500);
+
+}
+
+
+/* =====================================================
+   INITIALIZATION
+===================================================== */
+
+window.addEventListener(
+    "load",
+    () => {
+
+        updateValidation();
+
+        updatePrivacyData();
+
+
+        setTimeout(() => {
+
+            addActivity(
+                "On-device privacy engine initialized"
+            );
+
+        }, 700);
+
+
+        setTimeout(() => {
+
+            addActivity(
+                "Sensitive data scanner ready"
+            );
+
+        }, 1400);
+
+
+        setTimeout(() => {
+
+            addActivity(
+                "Visual redaction engine ready"
+            );
+
+        }, 2100);
+
+    }
+);
+
+
+/* =====================================================
+   UPDATE PRIVACY VIEW WHEN USER TYPES
+===================================================== */
+
+[
+    "name",
+    "email",
+    "phone",
+    "password",
+    "cardNumber"
+].forEach(id => {
+
+    get(id).addEventListener(
+        "input",
+        () => {
+
+            updatePrivacyData();
+
+            /*
+              If Privacy View is active,
+              immediately update the masked
+              representation.
+            */
+
+            if (privacyMode) {
+
+                setView("private");
+
+            }
+
+        }
+    );
+
+});
+
+
+</script>
+
 </body>
 </html>
